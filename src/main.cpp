@@ -41,6 +41,9 @@ void setup() {
     Delay_Queue.Push("Test Setup2", millis() + 2000);
     Delay_Queue.Push("Test Setup3", millis() + 2500);
 
+    Serial.println(Delay_Queue.Show());
+
+    delay(500);
   }
 
 
@@ -52,7 +55,6 @@ void loop() {
     Serial.print("Delay_Queue.Pop(): ");
     Serial.println(Delay_Queue.Pop());
   }
-
 
   delay(100);
 

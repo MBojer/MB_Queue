@@ -20,8 +20,8 @@ Version 0.1
       String Pop();
       String Peek();
       int Length();
-      int Is_Empthy();
       void Clear();
+      String Show();
 
 
 
@@ -29,7 +29,7 @@ Version 0.1
       // --------------------------------------------- Queue ---------------------------------------------
       #define _Max_Queue_Length 10
       byte _Queue_Length = 0;
-      bool _Queue_Is_Empthy = true;
+      bool Queue_Is_Empthy = true;
 
       byte Lowest_Timer_Number;
 

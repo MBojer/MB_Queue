@@ -22,7 +22,6 @@ Version 0.1
       String Peek();
       String Peek_Queue();
       int Length();
-      int Is_Empthy();
       void Clear();
       String Search_Peek(String Search_String);
       String Search_Pop(String Search_String, bool Delete_All_Matches);
@@ -32,7 +31,7 @@ Version 0.1
       // --------------------------------------------- Queue ---------------------------------------------
       int _Max_Queue_Length;
       int _Queue_Length = 0;
-      bool _Queue_Is_Empthy = true;
+      bool Queue_Is_Empthy = true;
       String _Queue_String = ";"; // ";" is used as seperators betweens the string in the queue
 
   };
