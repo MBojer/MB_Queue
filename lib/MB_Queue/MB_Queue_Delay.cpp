@@ -72,8 +72,8 @@ String MB_Queue_Delay::Pop() {
 
 
   // Clears the returned string
-  _Queue_Timing[Lowest_Timer_Number] = 0;
-  _Queue_String[Lowest_Timer_Number] = "";
+  _Queue_Timing[_Lowest_Timer_Number] = 0;
+  _Queue_String[_Lowest_Timer_Number] = "";
 
 
   if (_Queue_Length == 1) {
@@ -95,7 +95,7 @@ String MB_Queue_Delay::Peek() {
   if (Queue_Is_Empthy == true) return ""; // Well nothing to do might as well quit
 
   unsigned long Lowest_Timer = 0;
-  Lowest_Timer_Number = 255;
+  _Lowest_Timer_Number = 255;
 
   for (byte i = 0; i < _Max_Queue_Length; i++) {
 
@@ -103,21 +103,21 @@ String MB_Queue_Delay::Peek() {
 
     else if (Lowest_Timer == 0) { // First hit
       Lowest_Timer = _Queue_Timing[i];
-      Lowest_Timer_Number = i;
+      _Lowest_Timer_Number = i;
     }
 
     else if (Lowest_Timer > _Queue_Timing[i]) {
       Lowest_Timer = _Queue_Timing[i];
-      Lowest_Timer_Number = i;
+      _Lowest_Timer_Number = i;
     }
 
   } // for
 
 
-  if (Lowest_Timer_Number == 255) return ""; // No match found
+  if (_Lowest_Timer_Number == 255) return ""; // No match found
 
   if (Lowest_Timer < millis()) {
-    return _Queue_String[Lowest_Timer_Number];
+    return _Queue_String[_Lowest_Timer_Number];
   }
 
   return "";
