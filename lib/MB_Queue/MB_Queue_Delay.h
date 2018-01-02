@@ -1,6 +1,8 @@
 /*
 MB Queue
 Version 0.1
+
+REMEMBER: Dedupe removes all other entries matching search string untill "Dedupe_Marker"
 */
 
 #ifndef MB_Queue_Delay_h
@@ -16,7 +18,7 @@ Version 0.1
 
 
       // --------------------------------------------- Queue ---------------------------------------------
-      void Push(String Push_String, unsigned long Run_Time);
+      void Push(String Push_String, unsigned long Delay_In_Ms);
       String Pop();
       String Peek();
       int Length();
@@ -28,6 +30,9 @@ Version 0.1
 
     private:
       // --------------------------------------------- Queue ---------------------------------------------
+      void Dedupe(String Search_String);
+      #define Dedupe_Marker "V"
+
       #define _Max_Queue_Length 10
       byte _Queue_Length = 0;
 

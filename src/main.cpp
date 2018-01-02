@@ -14,6 +14,9 @@ MB_Queue Reci_Q(12);
 
 MB_Queue_Delay Delay_Queue;
 
+#define Check_In_Ms 750
+unsigned long Check_In;
+
 
 void setup() {
 
@@ -36,12 +39,10 @@ void setup() {
 
   { // MB_Queue_Delay
 
-    Delay_Queue.Push("Test Setup", millis() + 1000);
-    Delay_Queue.Push("Test Setup1", millis() + 1500);
-    Delay_Queue.Push("Test Setup2", millis() + 2000);
-    Delay_Queue.Push("Test Setup3", millis() + 2500);
-
-    Serial.println(Delay_Queue.Show());
+    Delay_Queue.Push("Test Setup", 1000);
+    Delay_Queue.Push("Test Setup1", 1500);
+    Delay_Queue.Push("Test Setup2", 2000);
+    Delay_Queue.Push("Test Setup3", 2500);
 
     delay(500);
   }
@@ -51,10 +52,21 @@ void setup() {
 
 void loop() {
 
-  if (Delay_Queue.Peek() != "") {
-    Serial.print("Delay_Queue.Pop(): ");
-    Serial.println(Delay_Queue.Pop());
+  if (Check_In < millis()) {
+
+    Serial.println("Delay_Queue.Show(): ");
+    Serial.println(Delay_Queue.Show());
+    if (Delay_Queue.Peek() != "") {
+
+      Serial.print("Delay_Queue.Pop(): ");
+      Serial.println(Delay_Queue.Pop());
+    }
+
+    Check_In = millis() + Check_In_Ms;
   }
+
+  Delay_Queue.Push("T2N1V100", 500);
+  // Delay_Queue.Push("T2N1V100", 1000);
 
   delay(100);
 

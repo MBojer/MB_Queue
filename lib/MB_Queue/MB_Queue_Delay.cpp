@@ -1,9 +1,3 @@
-/*
-
-MB_Queue_Delay
-
-*/
-
 
 // --------------------------------------------- WBus ---------------------------------------------
 
@@ -20,16 +14,15 @@ MB_Queue_Delay::MB_Queue_Delay() {
 
 // --------------------------------------------- Queue ---------------------------------------------
 
-void MB_Queue_Delay::Push(String Push_String, unsigned long Run_Time) {
+void MB_Queue_Delay::Push(String Push_String, unsigned long Delay_In_Ms) {
 
   if (Queue_Is_Empthy == true) {
 
     _Queue_Length = 1;
     Queue_Is_Empthy = false;
 
-    _Queue_Timing[0] = Run_Time;
+    _Queue_Timing[0] = millis() + Delay_In_Ms;
     _Queue_String[0] = Push_String;
-    return;
   }
 
 
@@ -38,11 +31,13 @@ void MB_Queue_Delay::Push(String Push_String, unsigned long Run_Time) {
     _Queue_Length = _Max_Queue_Length;
     Queue_Is_Empthy = true;
 
-    _Queue_Timing[_Max_Queue_Length - 1] = Run_Time;
+    Dedupe(Push_String);
+
+    _Queue_Timing[_Max_Queue_Length - 1] = millis() + Delay_In_Ms;
     _Queue_String[_Max_Queue_Length - 1] = Push_String;
 
     // CHANGE ME - Error reporting !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    return;
+
   }
 
 
@@ -50,13 +45,14 @@ void MB_Queue_Delay::Push(String Push_String, unsigned long Run_Time) {
     _Queue_Length = _Queue_Length + 1;
     Queue_Is_Empthy = false;
 
+    Dedupe(Push_String);
+
     for (byte i = 0; i < _Max_Queue_Length; i++) { // Find the next free spot in the queue
       if (_Queue_Timing[i] == 0) {
-        _Queue_Timing[i] = Run_Time;
+        _Queue_Timing[i] = millis() + Delay_In_Ms;
         _Queue_String[i] = Push_String;
-        return;
+        break;
       } // if
-
     } // for
 
   } // else
@@ -154,6 +150,40 @@ String MB_Queue_Delay::Show() {
 
   }
 
+  Return_String = Return_String.substring(0, Return_String.length() - 2); // removes the last /r/n
+
   return Return_String;
 
 } // MB_Queue_Delay::Show()
+
+void MB_Queue_Delay::Dedupe(String Search_String) {
+
+  if (Search_String.indexOf(Dedupe_Marker) == -1) return;
+
+  for (byte i = 0; i < _Max_Queue_Length; i++) {
+
+    if (_Queue_String[i] != 0) {
+
+        if (Search_String.substring(0, Search_String.indexOf(Dedupe_Marker)) ==
+        _Queue_String[i].substring(0, _Queue_String[i].indexOf(Dedupe_Marker))) {
+
+          _Queue_Timing[i] = 0;
+          _Queue_String[i] = "";
+
+          if (_Queue_Length == 1) {
+            _Queue_Length = 0;
+            Queue_Is_Empthy = true;
+          }
+
+          else {
+            _Queue_Length = _Queue_Length - 1;
+            Queue_Is_Empthy = false;
+          }
+
+        } // if
+
+    } // if (Search_String.indexOf(Dedupe_Marker) =! -1)
+
+  } // for
+
+} // MB_Queue_Delay::Dedupe
