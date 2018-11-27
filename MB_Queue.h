@@ -1,6 +1,10 @@
 /*
 MB Queue
-Version 0.1
+Version 0.2
+
+Changelog
+-- 0.02
+- Added SetQueueLength()
 */
 
 #ifndef MB_Queue_h
@@ -27,7 +31,9 @@ Version 0.1
       String Search_Pop(String Search_String, bool Delete_All_Matches);
 
       bool Queue_Is_Empthy = true;
-      
+
+      void SetQueueLength(byte Queue_Length);
+
 
     private:
       // --------------------------------------------- Queue ---------------------------------------------

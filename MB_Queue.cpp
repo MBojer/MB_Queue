@@ -154,3 +154,12 @@ String MB_Queue::Search_Pop(String Search_String, bool Delete_All_Matches) {
 
   return ";";
 }
+
+void MB_Queue::SetQueueLength(byte Queue_Length) {
+
+  // Clear queue for good measure
+  Clear();
+  // Set new queue length
+  _Max_Queue_Length = Queue_Length;
+
+}
