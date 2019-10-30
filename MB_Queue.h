@@ -1,8 +1,11 @@
 /*
 MB Queue
-Version 0.2
+Version 0.3
 
 Changelog
+-- 0.03
+- Added Set_Marker()
+
 -- 0.02
 - Added SetQueueLength()
 */
@@ -32,15 +35,17 @@ Changelog
 
       bool Queue_Is_Empthy = true;
 
+      void SetMarker(String Queue_Marker);
       void SetQueueLength(byte Queue_Length);
 
 
     private:
       // --------------------------------------------- Queue ---------------------------------------------
+      String _Queue_Marker = ";";
       int _Max_Queue_Length;
       int _Queue_Length = 0;
-      String _Queue_String = ";"; // ";" is used as seperators betweens the string in the queue
-
+      // ";" normally is used as seperators betweens the string in the queue
+      String _Queue_String = _Queue_Marker; 
   };
 
 #endif
